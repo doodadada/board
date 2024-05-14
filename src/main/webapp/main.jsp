@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>Board main</title>
 <link rel="stylesheet" type="text/css" href="css/board.css">
+<script src="script/board.js"></script>
 </head>
 <body>
 <div id="main_container">
@@ -20,7 +21,7 @@
 			${loginUser.name}(${loginUser.userid})님이 로그인하셨습니다
 			<input type="button" value="회원정보수정" onClick="location.href='board.do?command=updateMemberForm'" />
 			<input type="button" value="로그아웃" onClick="location.href='board.do?command=logout'" />
-			<input type="button" value="회원탈퇴" onClick="withDraw()" />
+			<input type="button" value="회원탈퇴" onClick="withDraw();" />
 		</div>
 		<div class="writebutton">
 			<input type="button" value="게시글등록" onClick="location.href='board.do?command=insertBoardForm'" />
@@ -37,7 +38,11 @@
 		<c:forEach items="${boardList}" var="board">
 			<div class="row">
 				<div class="col">${board.num}</div>
-				<div class="col">${board.title}</div>
+				<div class="col">
+					<a style="text-decoration:none" href="board.do?command=boardView&num=${board.num}">
+						${board.title}
+					</a>
+				</div>
 				<div class="col">${board.userid}</div>
 				<div class="col"><fmt:formatDate value="${board.writedate}"/></div>
 				<div class="col">${board.readcount}</div>

@@ -30,9 +30,9 @@ public class MemberDao {
 
 		try {
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1,  userid);
+			pstmt.setString(1, userid);
 			rs = pstmt.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				mdto = new MemberDto();
 				mdto.setUserid(rs.getString("userid"));
 				mdto.setPwd(rs.getString("pwd"));
@@ -60,6 +60,42 @@ public class MemberDao {
 			pstmt.setString(3, mdto.getName());
 			pstmt.setString(4, mdto.getEmail());
 			pstmt.setString(5, mdto.getPhone());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Dbm.close(con, pstmt, rs);
+		}
+		return result;
+	}
+
+	public int updateMember(MemberDto mdto) {
+		int result = 0;
+		con = Dbm.getConnection();
+		String sql = "UPDATE member SET pwd=?, name=?, email=?, phone=? WHERE userid=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, mdto.getPwd());
+			pstmt.setString(2, mdto.getName());
+			pstmt.setString(3, mdto.getEmail());
+			pstmt.setString(4, mdto.getPhone());
+			pstmt.setString(5, mdto.getUserid());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Dbm.close(con, pstmt, rs);
+		}
+		return result;
+	}
+
+	public int deleteMember(String userid) {
+		int result=0;
+		con = Dbm.getConnection();
+		String sql = "DELETE FROM member WHERE userid=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, userid);
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

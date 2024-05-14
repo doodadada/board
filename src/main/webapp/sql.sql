@@ -48,3 +48,31 @@ select * from member;
 select * from board;
 
 SELECT * FROM board ORDER BY num DESC;
+
+--
+DROP TABLE new_table; 
+
+SELECT * FROM reply;
+
+CREATE TABLE `board`.`reply` (
+  `replynum` INT NOT NULL AUTO_INCREMENT,
+  `boardnum` INT NOT NULL,
+  `userid` VARCHAR(45) NOT NULL,
+  `writedate` DATETIME NOT NULL DEFAULT now(),
+  `content` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`replynum`),
+  INDEX `f1_idx` (`boardnum` ASC) VISIBLE,
+  INDEX `f2_idx` (`userid` ASC) VISIBLE,
+  CONSTRAINT `f1`
+    FOREIGN KEY (`boardnum`)
+    REFERENCES `board`.`board` (`num`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `f2`
+    FOREIGN KEY (`userid`)
+    REFERENCES `board`.`member` (`userid`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE);
+
+    INSERT INTO reply(boardnum,userid,content) VALUES(5,'hong1','치미치미');
+    INSERT INTO reply(boardnum,userid,content) VALUES(5,'hong2','집에가고싶다');

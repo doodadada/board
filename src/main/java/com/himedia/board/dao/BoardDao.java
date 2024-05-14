@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.himedia.board.dto.BoardDto;
+import com.himedia.board.dto.ReplyDto;
 import com.himedia.board.util.Dbm;
 
 public class BoardDao {
@@ -50,5 +51,126 @@ public class BoardDao {
 		return list;
 	}
 
+	public int insertBoard(BoardDto bdto) {
+		int result =0;
+		con = Dbm.getConnection();
+		String sql = "INSERT INTO board(userid, pass, email, title, content) values(?,?,?,?,?)";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, bdto.getUserid());
+			pstmt.setString(2, bdto.getPass());
+			pstmt.setString(3, bdto.getTitle());
+			pstmt.setString(4, bdto.getEmail());
+			pstmt.setString(5, bdto.getContent());
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Dbm.close(con, pstmt, rs);
+		}
+		return result;
+	}
+
+	public BoardDto getBoard(int num) {
+		BoardDto bdto = null;
+		con = Dbm.getConnection();
+		String sql = "SELECT * FROM board WHERE num=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				bdto = new BoardDto();
+				bdto.setNum(rs.getInt("num"));
+				bdto.setPass(rs.getString("pass"));
+				bdto.setEmail(rs.getString("email"));
+				bdto.setUserid(rs.getString("userid"));
+				bdto.setTitle(rs.getString("title"));
+				bdto.setContent(rs.getString("content"));
+				bdto.setReadcount(rs.getInt("readcount"));
+				bdto.setWritedate(rs.getTimestamp("writedate"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Dbm.close(con, pstmt, rs);
+		}
+		return bdto;
+	}
+
+	public void plusReadCount(int num) {
+		con = Dbm.getConnection();
+		String sql = "UPDATE board SET readcount = readcount+1 WHERE num=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Dbm.close(con, pstmt, rs);
+		}
+	}
+
 	
+
+	public void updateBoard(BoardDto bdto) {
+		con = Dbm.getConnection();
+		String sql = "UPDATE board SET pass=?, email=?, title=?, content=? WHERE num=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, bdto.getPass());
+			pstmt.setString(2, bdto.getTitle());
+			pstmt.setString(3, bdto.getEmail());
+			pstmt.setString(4, bdto.getContent());
+			pstmt.setInt(5, bdto.getNum());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Dbm.close(con, pstmt, rs);
+		}
+	}
+
+	public void deleteBoard(int num) {
+		con = Dbm.getConnection();
+		String sql = "DELETE FROM board WHERE num=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Dbm.close(con, pstmt, rs);
+		}
+	}
+
+	public ArrayList<ReplyDto> getReply(int num) {
+		ArrayList<ReplyDto>list = new ArrayList<ReplyDto>();
+		con = Dbm.getConnection();
+		String sql = "SELECT * FROM reply WHERE boardnum=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				ReplyDto rdto = new ReplyDto();
+				rdto.setReplynum(rs.getInt("replynum"));
+				rdto.setBoardnum(rs.getInt("boardnum"));
+				rdto.setUserid(rs.getString("userid"));
+				rdto.setContent(rs.getString("content"));
+				rdto.setWritedate(rs.getTimestamp("writedate"));
+				//System.out.println(rdto.toString());
+				list.add(rdto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			Dbm.close(con, pstmt, rs);
+		}
+		
+		return list;
+	}
+
 }

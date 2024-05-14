@@ -17,16 +17,12 @@ public class BoardDto {
 	public BoardDto() {
 	}
 	
-	public BoardDto(int num, String pass, String userid, String email, String title, String content, int readcount,
-			Timestamp writedate) {
-		this.num = num;
-		this.pass = pass;
+	public BoardDto( String userid, String pass,  String email, String title, String content) {
 		this.userid = userid;
+		this.pass = pass;
 		this.email = email;
 		this.title = title;
 		this.content = content;
-		this.readcount = readcount;
-		this.writedate = writedate;
 	}
 
 	public int getNum() {

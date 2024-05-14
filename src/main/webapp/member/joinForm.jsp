@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>joinForm.jsp</title>
 <link rel="stylesheet" type="text/css" href="css/board.css">
 <script src="script/board.js"></script>
 </head>
