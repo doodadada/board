@@ -43,6 +43,19 @@ insert into board(pass, userid, email, title, content)
 values('1234', 'hong1', 'hong1@naver.com', '2024년 겨울', '몹시 추울꺼 같아요... 다들 건강 유의 하세요....');
 insert into board(pass, userid, email, title, content)
 values('1234', 'hong2', 'hong2@naver.com', '맛집공유', '맛집공유 및 추천해주세요');
+insert into board(pass, userid, email, title, content)
+values('1234', 'hong1', 'hong1@naver.com', '첫방문입니다', '반갑습니다. 앞으로 많은 격려와 지도편달 부탁드립니다');
+insert into board(pass, userid, email, title, content)
+values('1234', 'hong2', 'hong2@naver.com', '돼지골마을', '돼지 삼겹살이 맛있습니다');
+insert into board(pass, userid, email, title, content)
+values('1234', 'hong3', 'hong3@naver.com', '게시판 개설', '축하드립니다.  무궁한 발전을 기원할께요');
+insert into board(pass, userid, email, title, content)
+values('1234', 'hong1', 'hong1@naver.com', '2024년 겨울', '몹시 추울꺼 같아요... 다들 건강 유의 하세요....');
+insert into board(pass, userid, email, title, content)
+values('1234', 'hong2', 'hong2@naver.com', '맛집공유', '맛집공유 및 추천해주세요');
+
+SELECT * FROM board LIMIT 10 OFFSET 100;
+SELECT * FROM board ORDER BY num DESC LIMIT 10 OFFSET 1;
 
 select * from member;
 select * from board;
@@ -76,3 +89,5 @@ CREATE TABLE `board`.`reply` (
 
     INSERT INTO reply(boardnum,userid,content) VALUES(5,'hong1','치미치미');
     INSERT INTO reply(boardnum,userid,content) VALUES(5,'hong2','집에가고싶다');
+
+    SELECT COUNT(*) AS cnt FROM reply WHERE boardnum=1;

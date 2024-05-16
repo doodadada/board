@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.himedia.board.dto.BoardDto;
 import com.himedia.board.dto.ReplyDto;
 import com.himedia.board.util.Dbm;
+import com.himedia.board.util.Paging;
 
 public class BoardDao {
 	private BoardDao() {
@@ -24,12 +25,15 @@ public class BoardDao {
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 
-	public ArrayList<BoardDto> getAllBoard() {
+	public ArrayList<BoardDto> getAllBoard(Paging paging) {
 		ArrayList<BoardDto> list = new ArrayList<BoardDto>();
 		con = Dbm.getConnection();
-		String sql = "SELECT * FROM board ORDER BY num DESC";
+		// String sql = "SELECT * FROM board ORDER BY num DESC";
+		String sql = "SELECT * FROM board ORDER BY num DESC LIMIT ? OFFSET ?";
 		try {
 			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, paging.getDisplayRow());
+			pstmt.setInt(2, paging.getStartNum()-1);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				BoardDto bdto = new BoardDto();
@@ -149,7 +153,7 @@ public class BoardDao {
 	public ArrayList<ReplyDto> getReply(int num) {
 		ArrayList<ReplyDto>list = new ArrayList<ReplyDto>();
 		con = Dbm.getConnection();
-		String sql = "SELECT * FROM reply WHERE boardnum=?";
+		String sql = "SELECT * FROM reply WHERE boardnum=? ORDER BY replynum desc";
 		try {
 			pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, num);
@@ -173,4 +177,68 @@ public class BoardDao {
 		return list;
 	}
 
+	public void insertReply(ReplyDto rdto) {
+		con = Dbm.getConnection();
+		String sql = "INSERT INTO reply(boardnum, userid, content) values(?,?,?)";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, rdto.getBoardnum());
+			pstmt.setString(2, rdto.getUserid());
+			pstmt.setString(3, rdto.getContent());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Dbm.close(con, pstmt, rs);
+		}
+		
+	}
+
+	public void deleteReply(int replyNum) {
+		con = Dbm.getConnection();
+		String sql = "DELETE FROM reply WHERE replynum=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, replyNum);
+			pstmt.executeUpdate();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Dbm.close(con, pstmt, rs);
+		}
+	}
+
+	public int getReplyCount(int num) {
+		int count = 0;
+		con = Dbm.getConnection();
+		String sql = "SELECT COUNT(*) AS cnt FROM reply WHERE boardnum=?";
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			if(rs.next()) count=rs.getInt("cnt");
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Dbm.close(con, pstmt, rs);
+		}
+		return count;
+	}
+
+	public int getAllCount() {
+		int count = 0;
+		con = Dbm.getConnection();
+		String sql = "SELECT COUNT(*) AS cnt FROM board";
+		try {
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if(rs.next()) count=rs.getInt("cnt");
+		}catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Dbm.close(con, pstmt, rs);
+		}
+		return count;
+	}
+	
 }

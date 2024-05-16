@@ -11,6 +11,7 @@ public class BoardDto {
 	private String content;
 	private int readcount;
 	private Timestamp writedate;
+	private int replycnt;
 	
 	
 	
@@ -24,7 +25,7 @@ public class BoardDto {
 		this.title = title;
 		this.content = content;
 	}
-
+	
 	public int getNum() {
 		return num;
 	}
@@ -73,11 +74,23 @@ public class BoardDto {
 	public void setWritedate(Timestamp writedate) {
 		this.writedate = writedate;
 	}
+	
+	public int getReplycnt() {
+		return replycnt;
+	}
+
+	public void setReplycnt(int replycnt) {
+		this.replycnt = replycnt;
+	}
+
 	@Override
 	public String toString() {
 		return "BoardDto [num=" + num + ", pass=" + pass + ", userid=" + userid + ", email=" + email + ", title="
-				+ title + ", content=" + content + ", readcount=" + readcount + ", writedate=" + writedate + "]";
+				+ title + ", content=" + content + ", readcount=" + readcount + ", writedate=" + writedate
+				+ ", replycnt=" + replycnt + "]";
 	}
+
+	
 	
 	
 	
