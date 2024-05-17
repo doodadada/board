@@ -12,7 +12,8 @@ public class BoardDto {
 	private int readcount;
 	private Timestamp writedate;
 	private int replycnt;
-	
+	private String image;
+	private String savefilename;
 	
 	
 	public BoardDto() {
@@ -82,13 +83,31 @@ public class BoardDto {
 	public void setReplycnt(int replycnt) {
 		this.replycnt = replycnt;
 	}
+	
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getSavefilename() {
+		return savefilename;
+	}
+
+	public void setSavefilename(String savefilename) {
+		this.savefilename = savefilename;
+	}
 
 	@Override
 	public String toString() {
 		return "BoardDto [num=" + num + ", pass=" + pass + ", userid=" + userid + ", email=" + email + ", title="
 				+ title + ", content=" + content + ", readcount=" + readcount + ", writedate=" + writedate
-				+ ", replycnt=" + replycnt + "]";
+				+ ", replycnt=" + replycnt + ", image=" + image + ", savefilename=" + savefilename + "]";
 	}
+
+	
 
 	
 	

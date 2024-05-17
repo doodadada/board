@@ -45,11 +45,15 @@
 					<c:if test="${board.replycnt>0}">
 					<span style="color:red; font-weight:bold;">[${board.replycnt}]</span>
 					</c:if>
+					<c:if test="${!empty board.savefilename}">
+					<!-- <span style="color:blue; font-weight:bold;">[img]</span> -->
+					<span style="color:blue; font-weight:bold;"><img src="images/imgicon.jpg" height="60%"></span>
+					</c:if>
 				</div>
 				<div class="col">${board.userid}</div>
 				<div class="col"><fmt:formatDate value="${board.writedate}"/></div>
 				<div class="col">${board.readcount}</div>
-			</div>
+			</div>	
 		</c:forEach>
 	</div>
 	<div class="paging">

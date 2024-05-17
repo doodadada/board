@@ -36,7 +36,20 @@
 		</div>
 		<div class="field" style="margin-bottom:15px;">
 			<div class="label">내용</div>
-			<div class="text" style="font-size:140%; "><pre>${board.content}</pre></div>
+			<div class="text" style="font-size:140%;flex:2;">
+				<pre>${board.content}</pre>
+			</div>
+			<div class="label">이미지</div>
+			<div class="text" style="flex:2;" >
+				<c:choose>
+					<c:when test="${empty board.savefilename}">
+						<img src="images/nofile.jpg" width="250">
+					</c:when>
+					<c:otherwise>
+						<img src="images/${board.savefilename}" width="350">
+					</c:otherwise>
+				</c:choose>
+			</div>
 		</div>
 		<div class="login-button">
             <input type="button" class="btn-login" value="수정"

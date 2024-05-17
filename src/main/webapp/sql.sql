@@ -91,3 +91,9 @@ CREATE TABLE `board`.`reply` (
     INSERT INTO reply(boardnum,userid,content) VALUES(5,'hong2','집에가고싶다');
 
     SELECT COUNT(*) AS cnt FROM reply WHERE boardnum=1;
+    
+    ALTER TABLE board ADD COLUMN image VARCHAR(50);
+    ALTER TABLE board ADD COLUMN savefilename VARCHAR(50);
+    
+    SELECT * FROM board;
+    SELECT * FROM board ORDER BY num DESC;
